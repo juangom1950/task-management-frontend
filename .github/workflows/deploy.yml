@@ -9,17 +9,25 @@ jobs:
       - name: Git Checkout
         uses: actions/checkout@v2
 
-      - name: Yarn Cache
-        uses: c-hive/gha-yarn-cache@v1
+      # cache dependencies
+      - name: npm Cache #Yarn Cache
+        uses: c-hive/gha-npm-cache@v1
+        #uses: c-hive/gha-yarn-cache@v1
 
+      # install them
       - name: Install dependencies
-        run: yarn
+        run: npm install
+        #run: yarn
 
       - name: Build React App
-        run: yarn build
+        run: npm build
+        #run: yarn build
         env:
-          HTTPS: 'true'
+          HTTPS: "true"
+          # Provide these two enviroment variables
+          # This is going to be the address of our NesJS backend
           REACT_APP_BASE_URL: ${{ secrets.REACT_APP_BASE_URL }}
+          # Target Front End app
           PUBLIC_URL: ${{ secrets.PUBLIC_URL }}
 
       - name: Deploy to GitHub Pages
